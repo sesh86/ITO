@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Collapse, Button,Card,CardHeader,CardTitle,CardBody} from 'reactstrap';
+// import {Collapse, Button,Card,CardHeader,CardTitle,CardBody, Nav} from 'reactstrap';
 import axios from 'axios';
 // import Authenticate from './Authenticate';
 import {Input} from 'reactstrap'
@@ -7,6 +7,11 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState,convertToRaw,ContentState,convertFromHTML} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+
+import {Nav,Navbar,NavDropdown} from 'react-bootstrap'
+
+
+
 class CreateBlog extends Component {
   componentDidMount(){  
     // axios.post('/getBlog',{"title":"Hey Vivek"},'{}')
@@ -80,6 +85,15 @@ class CreateBlog extends Component {
     // if(!this.state.course) return <div className="body container">Loading...</div>;
 
     return (
+      <div>
+<br/><br/><br/><br/>
+<Navbar className="container" sticky="top" expand="lg" bg="dark" variant="dark">
+  <Navbar.Brand href="#home">iTrain</Navbar.Brand>
+    <Nav className="mr-auto">
+      <Nav.Link href="#features">Features</Nav.Link>
+      <Nav.Link href="#pricing">Pricing</Nav.Link>
+    </Nav>
+</Navbar>
       <div className="container">
         <h1>Create New Blog</h1>
         <form onSubmit={this.onSubmit}>
@@ -136,6 +150,7 @@ class CreateBlog extends Component {
           </div>
         </form>
 
+      </div>
       </div>
 )
 }

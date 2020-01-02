@@ -77,29 +77,34 @@ class CreateCourse extends Component {
   }
   onSubmit=(ev)=> {
     ev.preventDefault();
-    let courseJSON={}
+    // let courseJSON={}
     let currentComponent = this;
-
+    let data = new FormData();
     for(let i in ev.target.elements){
-      if(ev.target.elements[i].value!==undefined && ev.target.elements[i].value!=="")
-        courseJSON[ev.target.elements[i].name]=ev.target.elements[i].value;
+      if(ev.target.elements[i].value!==undefined && ev.target.elements[i].value!==""){
+      data.append(ev.target.elements[i].name,ev.target.elements[i].value);
     }
-    const data = new FormData();
-    courseJSON['course_sylabus']=this.state.sylabus;
-    courseJSON['faq']=this.state.FAQs;
+    }
+    console.log(data);
+    // return;
+    data.append('course_sylabus',JSON.stringify(this.state.sylabus))
+    data.append('faq',JSON.stringify(this.state.FAQs))
+    data.append('logo','/static/img/'+ev.target.elements.logo.files[0].name)
+    // courseJSON['course_sylabus']=this.state.sylabus;
+    // courseJSON['faq']=this.state.FAQs;
 
     // if(this.props.location.pathname==='/CreateCourse'){
-      courseJSON['logo']='/static/img/'+ev.target.elements.logo.files[0].name;
+      // courseJSON['logo']='/static/img/'+ev.target.elements.logo.files[0].name;
       data.append('file', this.uploadInput.files[0]);
     // }
     // data.append('filename', this.fileName.value);
-    data.append('courseJSON',JSON.stringify(courseJSON));
-    console.log(courseJSON);
-    console.log(data.courseJSON);
+    // data.append('courseJSON',JSON.stringify(courseJSON));
+    // console.log(courseJSON);
+    // console.log(data.courseJSON);
     axios.post('/createCourse', data)
     .then(function (response) {
       currentComponent.setState({ imageURL: '', uploadStatus: true });
-      currentComponent.props.history.push('/CourseList');
+      // currentComponent.props.history.push('/CourseList');
     })
     .catch(function (error) {
       console.log(error);
@@ -130,9 +135,7 @@ class CreateCourse extends Component {
             <CardHeader className="bg-darkblue">
               <CardTitle>{s.topic}</CardTitle>
             </CardHeader>
-            <Collapse>
             <CardBody className="text-justify"><div dangerouslySetInnerHTML={{ __html: s.content}} /></CardBody>
-            </Collapse>
           </Card>)}
 
         <form onSubmit={this.onclick}>

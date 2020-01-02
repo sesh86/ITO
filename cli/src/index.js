@@ -15,14 +15,20 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './Reducer/reducer'
 import Discussion from './Components/Discussion';
+import Header from './Components/Header';
+import Course from './Components/Course';
+
 
 const store = createStore(rootReducer);
 
 ReactDOM.render(
     <Provider store={store}>
+<Header></Header>        
 <BrowserRouter>
 <Switch>
+    
 <Route exact path="/CreateCourse" component={CreateCourse}/>
+<Route exact path="/Course/:course" component={Course}/>
 <Route exact path="/CreateBlog" component={CreateBlog}/>
 <Route exact path="/CreateDiscussion" component={CreateDiscussion}/>
 <Route exact path="/Blog/:title" component={Blog}/>

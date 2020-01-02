@@ -32,12 +32,13 @@ class BlogList extends Component {
     }
   }
   render() {
+      let l_page=this.props.match.params.page?this.props.match.params.page:1;
       let blogs=this.props.blogs;
     return (
       <div className="container">        
       <div className="row">
         {blogs.map((s,i)=>
-          <div className="col-3">
+          <div className="col-12 col-md-3">
           <Card>
             <CardHeader className="bg-darkblue">
               <CardTitle>{s.title}</CardTitle>
@@ -55,7 +56,7 @@ class BlogList extends Component {
         </div>
         <br/>          
 
-        {blogs[0]?<GetPagination pages={Math.ceil(blogs[0].cnt/4)} curr={this.props.match.params.page} link="/blog/"/>:''}
+        {blogs[0]?<GetPagination pages={Math.ceil(blogs[0].cnt/4)} curr={l_page} link="/blog/"/>:''}
       </div>
     );
   }

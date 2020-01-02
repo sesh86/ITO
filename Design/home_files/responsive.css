@@ -1,0 +1,169 @@
+/*--------------------------------------------------------------
+# Responsive Media Queries
+--------------------------------------------------------------*/
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 768px) {
+  #contact .contact-address,
+  #contact .contact-phone,
+  #contact .contact-email {
+    padding: 20px 0;
+  }
+
+  #contact .contact-phone {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+  }
+}
+
+@media (min-width: 992px) {
+  #testimonials .testimonial-item p {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1024px) {
+  #header #logo {
+    padding-left: 60px;
+    padding-top: 1.5em;
+    padding-bottom: 1em;
+  }
+
+  #intro p {
+    width: 60%;
+  }
+
+  #intro .carousel-control-prev,
+  #intro .carousel-control-next {
+    width: 5%;
+  }
+  #nav-menu-container {
+    padding-right: 60px;
+    padding-top: 1.5em;
+    padding-bottom: 0;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .nav-menu > li {
+    margin-left: 0px;
+}
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  #header #logo img {
+      width: 100%;
+  }
+  #header #logo {
+      padding-left: 30px;
+  }
+  #nav-menu-container {
+      padding-right: 10px;
+  }
+  .nav-menu a {
+      padding: 0 6px 10px 6px;
+      font-size: 12px;
+  }
+  .nav-menu > li {
+      margin-left: 0;
+  }
+  .main_head_menu ul li a {
+      font-size: 10px;
+  }
+  .main_head_menu {
+      padding: 0.6em 20px;
+  }
+}
+@media (max-width: 991px) {
+  #mobile-nav-toggle i {
+      color: #222;
+  }
+  .logo_search .input-group {
+    display: none;
+  }
+  .main_head_menu {
+    display: none;
+  }
+  #header {
+      padding: 15px 0 15px 0;
+  }
+  header.section-header {
+      width: 100%;
+  }
+  .instruct_box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.align_profile {
+    width: 45%;
+    margin-bottom: 1em;
+}
+.enroll_box {
+    margin-left: 0;
+}
+.btn-get-started {
+    font-size: 11px;
+    display: inline-block;
+	padding:10px 22px;
+}
+.inside_top {
+    margin-top: 4em;
+}
+.course_box > ul > li {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+}
+
+.course_box > ul {
+    text-align: center;
+    background: #f5f4f4;
+}
+.nav-pills-a.nav-pills .nav-link.active:after {
+	background:transparent;
+}
+.nav-pills-a.nav-pills .nav-link.active {
+    color: #fff;
+    /* padding: 0; */
+    background: #174873;
+}
+.nav-pills-a.nav-pills .nav-link {
+    margin-right: 0;
+}
+.star_rating {
+    padding: 10px 20px 25px 0;
+}
+.reviews {
+    margin-left: 0;
+}
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    bottom: 15px;
+  }
+
+  #header #logo h1 {
+    font-size: 28px;
+  }
+
+  #header #logo img {
+    max-height: 40px;
+  }
+
+  #intro h2 {
+    font-size: 28px;
+  }
+
+  #nav-menu-container {
+    display: none;
+  }
+
+  #mobile-nav-toggle {
+    display: inline;
+  }
+}
