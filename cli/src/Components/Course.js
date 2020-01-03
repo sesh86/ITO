@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Navbar,Nav,Button,Jumbotron,Accordion,Card,ListGroup,Row,Col,Container,Breadcrumb} from 'react-bootstrap'
+import {Navbar,Nav,Badge,Button,Jumbotron,Accordion,Card,ListGroup,Row,Col,Container,Breadcrumb} from 'react-bootstrap'
 import axios from 'axios';
 
 class Course extends Component {
@@ -57,11 +57,27 @@ class Course extends Component {
 <Col>
 <Card>
         <Card.Header><strong>About {course.course_name} Training</strong></Card.Header>
-      <Card.Body>{course.description}</Card.Body>
+      <Card.Body className="about">{course.description}</Card.Body>
+      <Card.Footer><Row className="text-center">
+    <Col>
+        <Button className= "mb-1 bg-darkblue">Training Duration: {course.duration} Hours
+        </Button>    
+    </Col>
+    <Col>
+        <Button className= "mb-1 bg-darkblue">Prequisites: {course.pre_requisites}
+        </Button>    
+    </Col>    
+    <Col>
+        <Button className= "mb-1 bg-darkblue">Language: English
+        </Button>    
+    </Col>        
+</Row></Card.Footer>
 </Card>
 <div>
 
 </div>
+
+<br/>
 </Col>
 </Row>
 </Container>
@@ -69,7 +85,6 @@ class Course extends Component {
 <Navbar sticky="top" bg="dark" variant="dark">
     <Nav>
       <Nav.Link href="#course_details">Course Details</Nav.Link>
-      <Nav.Link href="#features">Features</Nav.Link>
       <Nav.Link href="#sylabus">Syllabus</Nav.Link>
       <Nav.Link href="#faq">FAQs</Nav.Link>
     </Nav>
@@ -79,18 +94,6 @@ class Course extends Component {
             <Card>
                 <Card.Body>
         <div dangerouslySetInnerHTML={{__html:course.course_details}}/>
-        </Card.Body>
-        </Card>
-</div>
-<div id="features">
-            <Card>
-            <Card.Header className="bg-darkblue"><strong>Features</strong></Card.Header>
-                <Card.Body>
-                <ListGroup>
-            <ListGroup.Item>LMS : {course.lms}</ListGroup.Item>
-            <ListGroup.Item>Pre-Requisites : {course.pre_requisites}</ListGroup.Item>
-            <ListGroup.Item>Live Project - {course.live_project}</ListGroup.Item>
-            </ListGroup>
         </Card.Body>
         </Card>
 </div>
