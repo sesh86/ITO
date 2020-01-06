@@ -14,7 +14,7 @@ class Discussions extends Component {
     super(props);
     // if(!getCookie('jwt')) this.props.history.push('/login');
     
-    let l_page=this.props.match.params.page?this.props.match.params.page:1;
+    let l_page=this.props.match?this.props.match.params.page:1;
     this.state = {
       options: {"page":l_page,"per_page":4,"filter":null,"sort_by":11,"order":'asc'},
       res: { "count": 0, "data": [] },
@@ -22,7 +22,7 @@ class Discussions extends Component {
   }
 
   componentDidUpdate(){
-    let l_page=this.props.match.params.page?this.props.match.params.page:1;
+    let l_page=this.props.match?this.props.match.params.page:1;
     let options=this.state.options;
 
     if(options['page']!==l_page){
@@ -43,11 +43,9 @@ class Discussions extends Component {
             <CardHeader className="bg-darkblue">
               <CardTitle>{s.title}</CardTitle>
             </CardHeader>
-            <Collapse>
             <CardBody className="text-justify">
                 <img src={"/img/"+s.image} class="blog_img img-fluid" alt="Responsive image"/>
                 <span dangerouslySetInnerHTML={{ __html: s.content}} /><Link to={"/discussion/"+s.title}>Read More</Link></CardBody>
-            </Collapse>
           </Card>
           </div>)}
           <div>
@@ -56,7 +54,7 @@ class Discussions extends Component {
         </div>
         <br/>          
 
-        {discussions[0]?<GetPagination pages={Math.ceil(discussions[0].cnt/4)} curr={this.props.match.params.page} link="/discussion/"/>:''}
+        {discussions[0]?<GetPagination pages={Math.ceil(discussions[0].cnt/4)} curr={this.state.options.page} link="/discussion/"/>:''}
       </div>
     );
   }

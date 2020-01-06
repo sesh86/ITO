@@ -16,6 +16,7 @@ import { Provider } from 'react-redux'
 import rootReducer from './Reducer/reducer'
 import Discussion from './Components/Discussion';
 import Header from './Components/Header';
+import Home from './Components/Home';
 import Course from './Components/Course';
 
 
@@ -26,7 +27,7 @@ ReactDOM.render(
 <Header></Header>        
 <BrowserRouter>
 <Switch>
-    
+<Route exact path="/" component={Home}/>    
 <Route exact path="/CreateCourse" component={CreateCourse}/>
 <Route exact path="/Course/:course" component={Course}/>
 <Route exact path="/CreateBlog" component={CreateBlog}/>

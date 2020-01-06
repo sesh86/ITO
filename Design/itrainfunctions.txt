@@ -1,0 +1,283 @@
+--createblog
+ declare 
+ret varchar;
+begin
+insert into blogs
+(title,blog,author,comments,image)
+select title,blog,author,comments,image from
+(
+select * from json_populate_record(null::blogs,p_row)
+) t;
+return true;
+end;
+
+
+--createcandidate
+ declare 
+ret varchar;
+begin
+insert into candidates
+(name,mobile,alternatemobile,email,opening,source,location,assignedto,status,due_date,comments)
+select name,mobile,alternatemobile,email,opening,source,location,assignedto,status,due_date::date,comments from
+(
+select * from json_populate_record(null::candidates,p_row)
+) t;
+return true;
+end;
+
+
+CREATE OR REPLACE FUNCTION public.create_course(p_row json)
+ RETURNS boolean
+ LANGUAGE plpgsql
+AS $function$ declare 
+ret varchar;
+begin
+insert into courses
+(course_name,category,demo_url, title,keywords,description,course_fee,discounted_fee,course_details,course_sylabus,batch,reviews,faq,duration,lms,live_project,pre_requisites,logo)
+select course_name,category,demo_url, title,keywords,description,course_fee,discounted_fee,course_details,course_sylabus::json,batch,reviews,faq::json,duration,lms,live_project,pre_requisites,logo from
+(
+select * from json_populate_record(null::courses,p_row)
+) t;
+return true;
+end;
+$function$
+
+--get_blogs
+declare ret json;
+l_parent varchar := '';
+l_filter varchar := ' 1=1';
+l_limit varchar := '';
+l_sort_by varchar := ' created_date desc nulls last';
+l_sql varchar;
+l_wf_guid varchar;
+l_wfp_guid varchar;
+l_workflow_filter varchar := '';
+begin
+
+if p_filter is not null then
+   l_filter := l_filter || ' and (lower(title) like ''%'||lower(p_filter)||'%'' or lower(blog::text) like ''%'||lower(p_filter)||'%'') ';
+end if;
+
+if p_sort_by is not null then
+	l_sort_by:=p_sort_by||' '||p_order || ' nulls last';
+end if;	
+l_limit := p_per_page || ' offset ' ||( p_page-1 )|| '*' ||( p_per_page ); 
+l_sql := 'select json_agg(row_to_json(t)) from (select cnt,id,TO_CHAR(created_date::date, ''DDth Mon yy'') "Created Date",title,blog,image,author from (select count(1) over(partition by 1) cnt, id,title,left(regexp_replace(blog, E''<[^>]+>'', '''', ''gi''),300)||''...'' blog,author,image,created_date from blogs where ' || l_filter || ' order by ' || l_sort_by || ' limit ' || l_limit || ') t ) t';
+execute l_sql into ret;
+return ret;
+end;
+
+ 
+declare 
+	ret json;
+	l_sql varchar;
+begin
+select json_agg(row_to_json(t)) 
+into ret
+from (select * from candidates where mobile = p_id) t;
+	return ret;
+	end;
+
+--get_candidates
+declare ret json;
+l_parent varchar := '';
+l_filter varchar := ' 1=1';
+l_limit varchar := '';
+l_sort_by varchar := ' updated_date desc nulls last';
+l_sort_by_outer varchar := ' date	 desc nulls last';
+l_sql varchar;
+l_wf_guid varchar;
+l_wfp_guid varchar;
+l_workflow_filter varchar := '';
+begin
+--insert into logs values( p_filter );	
+if p_assignedto is not null then
+   l_filter := l_filter || ' and assignedto ='''||p_assignedto||'''';
+end if;
+
+if p_status is not null then
+   l_filter := l_filter || ' and status ='''||p_status||'''';
+end if;
+
+if p_opening is not null then
+   l_filter := l_filter || ' and opening ='''||p_opening||'''';
+end if;
+
+if p_filter is not null then
+   l_filter := l_filter || ' and (lower(name) like ''%'||lower(p_filter)||'%'' or lower(mobile::text) like ''%'||lower(p_filter)||'%''  or lower(alternatemobile::text) like ''%'||lower(p_filter)||'%'') ';
+end if;
+
+if p_sort_by is not null then
+	l_sort_by:=p_sort_by||' '||p_order || ' nulls last';
+end if;	
+l_limit := p_per_page || ' offset ' ||( p_page-1 )|| '*' ||( p_per_page ); 
+l_sql := 'select json_agg(row_to_json(t)) from (select cnt,id,TO_CHAR(created_date::date, ''DDth Mon yy'') "Created Date",name,mobile,alternatemobile "Alt Mob",opening,source,assignedto "Assigned To",status,TO_CHAR(due_date, ''DDth Mon yy'') "Due Date" from (select count(1) over(partition by 1) cnt, id,created_date,name,mobile,alternatemobile,opening,source,assignedto,status,due_date from candidates where ' || l_filter || ' order by ' || l_sort_by || ' limit ' || l_limit || ') t ) t';
+execute l_sql into
+ret;
+return ret;
+end;
+	
+	
+--get_discussions
+declare ret json;
+l_parent varchar := '';
+l_filter varchar := ' 1=1';
+l_limit varchar := '';
+l_sort_by varchar := ' created_date desc nulls last';
+l_sql varchar;
+l_wf_guid varchar;
+l_wfp_guid varchar;
+l_workflow_filter varchar := '';
+begin
+
+if p_filter is not null then
+   l_filter := l_filter || ' and (lower(title) like ''%'||lower(p_filter)||'%'' or lower(content::text) like ''%'||lower(p_filter)||'%'') ';
+end if;
+
+if p_sort_by is not null then
+	l_sort_by:=p_sort_by||' '||p_order || ' nulls last';
+end if;	
+l_limit := p_per_page || ' offset ' ||( p_page-1 )|| '*' ||( p_per_page ); 
+l_sql := 'select json_agg(row_to_json(t)) from (select cnt,disc_id,TO_CHAR(created_date::date, ''DDth Mon yy'') "Created Date",title,content,author,image from (select count(1) over(partition by 1) cnt, disc_id,title,content,author,image,created_date from forum where ' || l_filter || ' order by ' || l_sort_by || ' limit ' || l_limit || ') t ) t';
+execute l_sql into ret;
+return ret;
+end;
+
+--get_enquiries
+declare ret json;
+l_parent varchar := '';
+l_filter varchar := ' 1=1';
+l_limit varchar := '';
+l_sort_by varchar := ' updated_date desc nulls last';
+l_sort_by_outer varchar := ' date	 desc nulls last';
+l_sql varchar;
+l_wf_guid varchar;
+l_wfp_guid varchar;
+l_workflow_filter varchar := '';
+begin
+--insert into logs values( p_filter );	
+if p_assignedto is not null then
+   l_filter := l_filter || ' and assignedto ='''||p_assignedto||'''';
+end if;
+
+if p_status is not null then
+   l_filter := l_filter || ' and status ='''||p_status||'''';
+end if;
+
+if p_course is not null then
+   l_filter := l_filter || ' and course ='''||p_course||'''';
+end if;
+
+if p_filter is not null then
+   l_filter := l_filter || ' and (lower(name) like ''%'||lower(p_filter)||'%'' or lower(mobile::text) like ''%'||lower(p_filter)||'%''  or lower(alternatemobile::text) like ''%'||lower(p_filter)||'%'') ';
+end if;
+
+if p_sort_by is not null then
+	l_sort_by:=p_sort_by||' '||p_order || ' nulls last';
+end if;	
+l_limit := p_per_page || ' offset ' ||( p_page-1 )|| '*' ||( p_per_page ); 
+l_sql := 'select json_agg(row_to_json(t)) from (select cnt,id,TO_CHAR(created_date::date, ''DDth Mon yy'') "Created Date",name,mobile,alternatemobile "Alt Mob",course,source,assignedto "Assigned To",status,TO_CHAR(due_date, ''DDth Mon yy'') "Due Date" from (select count(1) over(partition by 1) cnt, id,created_date,name,mobile,alternatemobile,course,source,assignedto,status,due_date from enquiries where ' || l_filter || ' order by ' || l_sort_by || ' limit ' || l_limit || ') t ) t';
+execute l_sql into
+ret;
+return ret;
+end;
+
+
+--get_enquiry
+declare 
+	ret json;
+	l_sql varchar;
+begin
+select json_agg(row_to_json(t)) 
+into ret
+from (select * from enquiries where mobile = p_id) t;
+	return ret;
+	end;
+
+--get_report
+ declare 
+	ret json;
+begin
+	select json_agg(row_to_json(t)) 
+	into ret
+	from (select  0 created,count(1) updated,t1.assignedto from 
+			(select distinct id,assignedto,unnest(ARRAY(select date from json_populate_recordset(null::comments, comments))) comment_updated from enquiries) t1
+			where comment_updated>=p_from_date
+			and   comment_updated<=p_to_date
+			group by assignedto
+			union all			
+			select count(1) created,0 updated,assignedto 
+			from enquiries
+			where created_date::date>=p_from_date
+			and   created_date::date<=p_to_date
+			group by assignedto) t;
+	return ret;
+end;
+
+--setotp
+ declare
+ret json;
+l_otp varchar;
+begin
+	select otp
+	into   l_otp
+	from   otp
+	where mobile=p_mobile;
+
+	if l_otp is null then
+		insert into otp
+		(otp,mobile,attempts,generated_at)
+		values(p_otp,p_mobile,0,now());
+		l_otp:=p_otp;
+	end if;
+
+	select 	row_to_json(t) 
+	into ret
+	from   (select 'success' api_status,l_otp otp) t;
+	return ret;
+exception when others then
+	select 	row_to_json(t) 
+	into ret
+	from   (select 'failed' api_status,SQLERRM err) t;
+	return ret;
+end;
+	
+--updatecandidate
+ 
+declare 
+	l_date date;
+	l_mobile varchar;
+	l_alternatemobile varchar;
+	l_status varchar;
+	l_comments json;
+	l_sql varchar;
+begin
+select t.a->>'dueDate',t.a->>'mobile',t.a->>'alternatemobile',t.a->>'status',t.a->>'comments'
+into l_date,l_mobile,l_alternatemobile,l_status,l_comments
+from (select p_body a ) t;
+	update candidates
+	set comments=l_comments, alternatemobile=l_alternatemobile,due_date=l_date::date,status=l_status
+	where mobile=l_mobile; 
+	return true;
+	end;
+
+--updateenq
+ 
+declare 
+	l_date date;
+	l_mobile varchar;
+	l_alternatemobile varchar;
+	l_status varchar;
+	l_comments json;
+	l_sql varchar;
+begin
+select t.a->>'dueDate',t.a->>'mobile',t.a->>'alternatemobile',t.a->>'status',t.a->>'comments'
+into l_date,l_mobile,l_alternatemobile,l_status,l_comments
+from (select p_body a ) t;
+	update enquiries
+	set comments=l_comments, alternatemobile=l_alternatemobile,due_date=l_date::date,status=l_status
+	where mobile=l_mobile; 
+	return true;
+	end;
+
+	

@@ -14,7 +14,7 @@ class BlogList extends Component {
     super(props);
     // if(!getCookie('jwt')) this.props.history.push('/login');
     
-    let l_page=this.props.match.params.page?this.props.match.params.page:1;
+    let l_page=this.props.match?this.props.match.params.page:1;
     this.state = {
       options: {"page":l_page,"per_page":4,"filter":null,"sort_by":11,"order":'asc'},
       res: { "count": 0, "data": [] },
@@ -22,7 +22,7 @@ class BlogList extends Component {
   }
 
   componentDidUpdate(){
-    let l_page=this.props.match.params.page?this.props.match.params.page:1;
+    let l_page=this.props.match?this.props.match.params.page:1;
     let options=this.state.options;
 
     if(options['page']!==l_page){
@@ -32,7 +32,7 @@ class BlogList extends Component {
     }
   }
   render() {
-      let l_page=this.props.match.params.page?this.props.match.params.page:1;
+      let l_page=this.props.match?this.props.match.params.page:1;
       let blogs=this.props.blogs;
     return (
       <div className="container">        
@@ -43,11 +43,9 @@ class BlogList extends Component {
             <CardHeader className="bg-darkblue">
               <CardTitle>{s.title}</CardTitle>
             </CardHeader>
-            <Collapse>
             <CardBody className="text-justify">
                 <img src={"/img/"+s.image} class="blog_img img-fluid" alt="Responsive image"/>
                 <span dangerouslySetInnerHTML={{ __html: s.blog}} /><Link to={"/blog/"+s.title}>Read More</Link></CardBody>
-            </Collapse>
           </Card>
           </div>)}
           <div>
