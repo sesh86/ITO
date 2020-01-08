@@ -38,14 +38,16 @@ class Discussions extends Component {
       <div className="container">        
       <div className="row">
         {discussions.map((s,i)=>
-          <div className="col-3">
+          <div className="col-12 col-md-3">
           <Card>
             <CardHeader className="bg-darkblue">
               <CardTitle>{s.title}</CardTitle>
             </CardHeader>
             <CardBody className="text-justify">
-                <img src={"/img/"+s.image} class="blog_img img-fluid" alt="Responsive image"/>
-                <span dangerouslySetInnerHTML={{ __html: s.content}} /><Link to={"/discussion/"+s.title}>Read More</Link></CardBody>
+              <div className="img_div">
+              <img src={"/img/"+s.image} class="blog_img" alt="Responsive image"/>
+              </div>                
+              <span dangerouslySetInnerHTML={{ __html: s.content}} /><Link to={"/Discussions/"+s.title}>Read More</Link></CardBody>
           </Card>
           </div>)}
           <div>
@@ -54,7 +56,7 @@ class Discussions extends Component {
         </div>
         <br/>          
 
-        {discussions[0]?<GetPagination pages={Math.ceil(discussions[0].cnt/4)} curr={this.state.options.page} link="/discussion/"/>:''}
+        {discussions[0]?<GetPagination pages={Math.ceil(discussions[0].cnt/4)} curr={this.state.options.page} link="/Discussions/"/>:''}
       </div>
     );
   }
@@ -69,19 +71,19 @@ const GetPagination=(props)=>{
     else pages=[curr-1,curr,curr+1];
   
     return(<Pagination size="md" variant="secondary">
-      {curr===1?<Pagination.First disabled/>:<Pagination.First><Link to={"/Discussion"}>{'<<'}</Link></Pagination.First>}
-      {curr===1?<Pagination.Prev disabled/>:<Pagination.Prev><Link to={"/Discussion/"+(curr-1)}>{'<'}</Link></Pagination.Prev>}
-      {curr===1?<Pagination.Item active>{1}</Pagination.Item>:<Pagination.Item><Link to={"/Discussion/"+1}>{1}</Link></Pagination.Item>}
+      {curr===1?<Pagination.First disabled/>:<Pagination.First><Link to={"/Discussions"}>{'<<'}</Link></Pagination.First>}
+      {curr===1?<Pagination.Prev disabled/>:<Pagination.Prev><Link to={"/Discussions/"+(curr-1)}>{'<'}</Link></Pagination.Prev>}
+      {curr===1?<Pagination.Item active>{1}</Pagination.Item>:<Pagination.Item><Link to={"/Discussions/"+1}>{1}</Link></Pagination.Item>}
 
       {(curr!==1 && curr!==2)?<Pagination.Ellipsis/>:('')}
       {pages.map((page,i) =>(
-          curr===page?<Pagination.Item key={i} active>{page}</Pagination.Item>:<Pagination.Item key={i} ><Link to={"/Discussion/"+page}>{page}</Link></Pagination.Item>
+          curr===page?<Pagination.Item key={i} active>{page}</Pagination.Item>:<Pagination.Item key={i} ><Link to={"/Discussions/"+page}>{page}</Link></Pagination.Item>
           )
       )}
       {(curr!==(props.pages-1) && curr!==props.pages)?<Pagination.Ellipsis />:''}
-      {(curr!==(props.pages-1) && curr!==props.pages)?<Pagination.Item ><Link to={"/Discussion/"+(props.pages)}>{props.pages}</Link></Pagination.Item>:('')}
-{curr!==props.pages?<Pagination.Next><Link to={"/Discussion/"+(curr+1)}>{">"}</Link></Pagination.Next>:<Pagination.Next disabled/>}
-      {curr!==props.pages?<Pagination.Last><Link to={"/Discussion/"+(props.pages)}>{">>"}</Link></Pagination.Last>:<Pagination.Last disabled/>}
+      {(curr!==(props.pages-1) && curr!==props.pages)?<Pagination.Item ><Link to={"/Discussions/"+(props.pages)}>{props.pages}</Link></Pagination.Item>:('')}
+{curr!==props.pages?<Pagination.Next><Link to={"/Discussions/"+(curr+1)}>{">"}</Link></Pagination.Next>:<Pagination.Next disabled/>}
+      {curr!==props.pages?<Pagination.Last><Link to={"/Discussions/"+(props.pages)}>{">>"}</Link></Pagination.Last>:<Pagination.Last disabled/>}
       
     </Pagination>);
   }

@@ -16,8 +16,13 @@
 }
 
 .blog_img{
-  /* height:250px; */
-  width:100%
+  width:100%;
+}
+
+.img_div{
+  width:100%;
+  height:150px;
+  overflow: hidden;
 }
 
 .input{width:100%}

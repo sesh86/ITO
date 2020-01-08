@@ -18,7 +18,7 @@ import Discussion from './Components/Discussion';
 import Header from './Components/Header';
 import Home from './Components/Home';
 import Course from './Components/Course';
-
+import 'font-awesome/css/font-awesome.min.css';
 
 const store = createStore(rootReducer);
 

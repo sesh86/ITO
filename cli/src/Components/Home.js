@@ -3,11 +3,20 @@ import {Nav,Navbar,NavDropdown} from 'react-bootstrap'
 import {NavLink } from 'react-router-dom';
 import Discussions from './Discussions';
 import BlogList from './BlogList';
+import axios from 'axios';
 class Home extends Component {
-    
+    state={courses:[]}
+    handleKeyPress = (e) => {
+        if(e.target.value.length<3) return;
+
+        axios.post('/searchCourse?course='+e.target.value)
+        .then(res=>{    
+            this.setState({courses:res.data}) 
+        });
+    }
     render()
     {
-        let courses,category;
+        let courses=this.state.courses,category;
         return(      
         <div><div className="search">
         <h1 className="text-center text">Dont just learn it, Master it</h1>
@@ -20,7 +29,7 @@ class Home extends Component {
         <div className="container">
         <ul className="list-group" id="myUL">
           {courses?courses.map((course,index) =>(
-          <li key={index} className="list-group-item"><NavLink title={"Check "+course.courseName} className="text" to={"/Course/"+course.courseName}>{course.courseName}</NavLink></li>)):''
+          <li key={index} className="list-group-item"><NavLink title={"Check "+course.course_name} className="text" to={"/Course/"+course.course_name}>{course.course_name}</NavLink></li>)):''
         }
         </ul>
         </div>

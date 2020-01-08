@@ -44,8 +44,11 @@ class BlogList extends Component {
               <CardTitle>{s.title}</CardTitle>
             </CardHeader>
             <CardBody className="text-justify">
-                <img src={"/img/"+s.image} class="blog_img img-fluid" alt="Responsive image"/>
-                <span dangerouslySetInnerHTML={{ __html: s.blog}} /><Link to={"/blog/"+s.title}>Read More</Link></CardBody>
+                <div className="img_div">
+                <img src={"/img/"+s.image} class="blog_img" alt="Responsive image"/>
+                </div>
+                <span dangerouslySetInnerHTML={{ __html: s.blog}} /><Link to={"/blog/"+s.title}>Read More</Link>
+                </CardBody>
           </Card>
           </div>)}
           <div>
