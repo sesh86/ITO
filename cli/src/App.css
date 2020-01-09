@@ -212,8 +212,9 @@ body{
 	font-family: 'Alegreya Sans', sans-serif;
 }
 
-#colorId{
-	color: white;
+#colorId
+{
+  	color: white;
 }
 h1{
 	color:green;
