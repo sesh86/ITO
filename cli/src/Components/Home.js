@@ -43,6 +43,8 @@ class Home extends Component {
       </div>
       <BlogList></BlogList>
       <Discussions></Discussions>
+     
+     
       </div>)
 }
 }
