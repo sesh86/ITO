@@ -11,7 +11,7 @@ const Footer =()=> {
               <li><a href="#">About</a></li>
               <li><a href="#">Terms</a></li>
               <li><a href="#">Pricing Policy</a></li><br/>
-              <li><a href="#">Pricing Policy</a></li>
+              <li><a href="#">ricing Policy</a></li>
             </ul>
           </div>
     
@@ -32,8 +32,7 @@ const Footer =()=> {
                 <li>
                 <strong><i class="fa fa-mobile"></i> +91 99003 10223</strong></li>
                 <li>
-                <strong><i class="fas fa-envelope-square"></i>&nbsp;info@itraintechnologies.com</strong></li>
-              
+                <strong><i class="fas fa-envelope-square"></i>&nbsp;info@itraintechnologies.com</strong></li>            
               </ul>
           </div>
           <div class="clear"></div>
