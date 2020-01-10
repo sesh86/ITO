@@ -8,6 +8,7 @@ import CreateDiscussion from './Components/CreateDiscussion';
 import Blog from './Components/Blog';
 import BlogList from './Components/BlogList';
 import Discussions from './Components/Discussions';
+import Courses from './Components/Courses';
 
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route,Switch} from 'react-router-dom'
@@ -37,6 +38,8 @@ ReactDOM.render(
 <Route exact path="/BlogList" component={BlogList}/>
 <Route exact path="/BlogList/:page" component={BlogList}/>
 <Route exact path="/Discussions/:page" component={Discussions}/>
+<Route exact path="/Courses/:page" component={Courses}/>
+
 
 </Switch>
 </BrowserRouter>

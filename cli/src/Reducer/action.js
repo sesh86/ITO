@@ -35,3 +35,21 @@ export const mapDispatchDiscussionsList = (dispatch) => {
     }    
   }
 }
+
+export const getCourses = (data) => {
+  return {
+    type: 'getCourses',
+    data:data
+  }
+}
+
+export const mapDispatchCoursesList = (dispatch) => {
+  return {
+    getCourses: (options) =>{
+      const request = axios.post('/getCourses',options);
+      request.then(function(res){
+        dispatch(getCourses(res.data))
+      })
+    }    
+  }
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Nav,Navbar,NavDropdown} from 'react-bootstrap'
 import {NavLink } from 'react-router-dom';
 import Discussions from './Discussions';
+import Courses from './Courses';
 import BlogList from './BlogList';
 import axios from 'axios';
 class Home extends Component {
@@ -41,6 +42,7 @@ class Home extends Component {
           </div>
         </div>
       </div>
+      <Courses></Courses>
       <BlogList></BlogList>
       <Discussions></Discussions>
       </div>)
