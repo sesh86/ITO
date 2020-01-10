@@ -67,7 +67,7 @@ class CreateBlog extends Component {
     // data.append('filename', this.fileName.value);
     data.append('courseJSON',JSON.stringify(courseJSON));
 
-    axios.post('/CreateBlog', data)
+    axios.post('http://itrainonline.co:5001/CreateBlog', data)
     .then(function (response) {
     //   currentComponent.setState({ imageURL: '', uploadStatus: true });
     //   currentComponent.props.history.push('/CourseList');

@@ -101,7 +101,7 @@ class CreateCourse extends Component {
     // data.append('courseJSON',JSON.stringify(courseJSON));
     // console.log(courseJSON);
     // console.log(data.courseJSON);
-    axios.post('/createCourse', data)
+    axios.post('http://itrainonline.co:5001/createCourse', data)
     .then(function (response) {
       currentComponent.setState({ imageURL: '', uploadStatus: true });
       // currentComponent.props.history.push('/CourseList');

@@ -62,7 +62,7 @@ class CreateDiscussion extends Component {
     // data.append('filename', this.fileName.value);
     data.append('courseJSON',JSON.stringify(courseJSON));
 
-    axios.post('/CreateDiscussion', data)
+    axios.post('http://itrainonline.co:5001/CreateDiscussion', data)
     .then(function (response) {
     //   currentComponent.setState({ imageURL: '', uploadStatus: true });
     //   currentComponent.props.history.push('/CourseList');

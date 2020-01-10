@@ -10,7 +10,7 @@ class Course extends Component {
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         let l_data={course:this.props.match.params.course}
-          axios.post('/getCourse',l_data,'{}')
+          axios.post('http://itrainonline.co:5001/getCourse',l_data,'{}')
           .then(res=>{    
               this.setState({course:res.data})              
           });

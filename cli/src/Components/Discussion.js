@@ -8,7 +8,7 @@ class Discussion extends Component {
         discussion:{}
     };
     let l_data={title:this.props.match.params.title}
-      axios.post('/getDiscussion',l_data,'{}')
+      axios.post('http://itrainonline.co:5001/getDiscussion',l_data,'{}')
       .then(res=>{    
           this.setState({discussion:res.data})
           console.log(res)

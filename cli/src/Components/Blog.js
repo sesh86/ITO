@@ -8,7 +8,7 @@ class Blog extends Component {
       blog:{}
     };
     let l_data={title:this.props.match.params.title}
-      axios.post('/getBlog',l_data,'{}')
+      axios.post('http://itrainonline.co:5001/getBlog',l_data,'{}')
       .then(res=>{    
           this.setState({blog:res.data})
           console.log(res)

@@ -4,12 +4,14 @@ import {NavLink } from 'react-router-dom';
 import Discussions from './Discussions';
 import BlogList from './BlogList';
 import axios from 'axios';
+import Popular from './Popular';
+import Footer from './footer';
 class Home extends Component {
     state={courses:[]}
     handleKeyPress = (e) => {
         if(e.target.value.length<3) return;
 
-        axios.post('/searchCourse?course='+e.target.value)
+        axios.post('http://itrainonline.co:5001/searchCourse?course='+e.target.value)
         .then(res=>{    
             this.setState({courses:res.data}) 
         });
@@ -41,9 +43,12 @@ class Home extends Component {
           </div>
         </div>
       </div>
+      <Popular/>
       <BlogList></BlogList>
+   
       <Discussions></Discussions>
-     
+      <br/>
+      <Footer/>
      
       </div>)
 }
