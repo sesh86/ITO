@@ -1,20 +1,22 @@
+import {Breadcrumb} from 'react-bootstrap'
 import React, { Component } from 'react';
 import '../App.css';
 import { connect } from 'react-redux'
 import { mapDispatchBlogList } from '../Reducer/action';
 import {Collapse,Card,CardHeader,CardTitle,CardBody} from 'reactstrap';
-import {Link } from 'react-router-dom';
+import {NavLink,Link } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination'
 
 class BlogList extends Component {
   componentDidMount() {
       this.props.getBlogs(this.state.options)
-    }
+  }
   constructor(props) {
     super(props);
+    console.log(this.props.match);
     // if(!getCookie('jwt')) this.props.history.push('/login');
     
-    let l_page=this.props.match?this.props.match.params.page:1;
+    let l_page=this.props.match?(this.props.match.params.page?this.props.match.params.page:1):1;
     this.state = {
       options: {"page":l_page,"per_page":4,"filter":null,"sort_by":11,"order":'asc'},
       res: { "count": 0, "data": [] },
@@ -22,7 +24,8 @@ class BlogList extends Component {
   }
 
   componentDidUpdate(){
-    let l_page=this.props.match?this.props.match.params.page:1;
+    console.log(this.props.match);
+    let l_page=this.props.match?(this.props.match.params.page?this.props.match.params.page:1):1;
     let options=this.state.options;
 
     if(options['page']!==l_page){
@@ -32,10 +35,19 @@ class BlogList extends Component {
     }
   }
   render() {
-      let l_page=this.props.match?this.props.match.params.page:1;
+      let l_page=this.props.match?(this.props.match.params.page?this.props.match.params.page:1):1;
+      let l_param_page=this.props.match?(this.props.match.params.page?this.props.match.params.page:1):null;
       let blogs=this.props.blogs;
     return (
-      <div className="container">        
+      <div className="m-5">        
+        {l_param_page!==null?<div className="bg">
+            <Breadcrumb>
+  <Breadcrumb.Item><NavLink to="/">Home</NavLink></Breadcrumb.Item>
+  <Breadcrumb.Item>
+  <NavLink to="/BlogList">Blogs</NavLink>
+  </Breadcrumb.Item>
+</Breadcrumb>
+</div>:''}          
       <div className="row">
         {blogs.map((s,i)=>
           <div className="col-12 col-md-3">
@@ -56,8 +68,10 @@ class BlogList extends Component {
           </div>
         </div>
         <br/>          
-
-        {blogs[0]?<GetPagination pages={Math.ceil(blogs[0].cnt/4)} curr={l_page} link="/blog/"/>:''}
+        {(blogs[0] && l_param_page!=null)?<GetPagination pages={Math.ceil(blogs[0].cnt/4)} curr={l_page} link="/blog/"/>:''}
+        {l_param_page===null?<NavLink className="cta-btn" to='/BlogList'>View all Courses </NavLink>:''}
+        <br/>          
+        <br/>                  
       </div>
     );
   }
@@ -72,7 +86,7 @@ const GetPagination=(props)=>{
     else pages=[curr-1,curr,curr+1];
   
     return(<Pagination size="md" variant="secondary">
-      {curr===1?<Pagination.First disabled/>:<Pagination.First><Link to={"/BlogList"}>{'<<'}</Link></Pagination.First>}
+      {curr===1?<Pagination.First disabled/>:<Pagination.First><Link to={"/BlogList/1"}>{'<<'}</Link></Pagination.First>}
       {curr===1?<Pagination.Prev disabled/>:<Pagination.Prev><Link to={"/BlogList/"+(curr-1)}>{'<'}</Link></Pagination.Prev>}
       {curr===1?<Pagination.Item active>{1}</Pagination.Item>:<Pagination.Item><Link to={"/BlogList/"+1}>{1}</Link></Pagination.Item>}
 

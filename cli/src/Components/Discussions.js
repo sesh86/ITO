@@ -1,3 +1,4 @@
+import {Breadcrumb} from 'react-bootstrap'
 import React, { Component } from 'react';
 import '../App.css';
 import { connect } from 'react-redux'
@@ -33,9 +34,18 @@ class Discussions extends Component {
   }
   render() {
       let discussions=this.props.discussions;
+      let l_page=this.props.match?this.props.match.params.page:null;
       console.log(discussions)
     return (
-      <div className="container">        
+      <div className="">        
+        {l_page!==null?<div className="bg">
+            <Breadcrumb>
+  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+  <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+    Web-Development
+  </Breadcrumb.Item>
+</Breadcrumb>
+</div>:''}      
       <div className="row">
         {discussions.map((s,i)=>
           <div className="col-12 col-md-3">
@@ -56,7 +66,9 @@ class Discussions extends Component {
         </div>
         <br/>          
 
-        {discussions[0]?<GetPagination pages={Math.ceil(discussions[0].cnt/4)} curr={this.state.options.page} link="/Discussions/"/>:''}
+        {(discussions[0] && l_page!=null)?<GetPagination pages={Math.ceil(discussions[0].cnt/4)} curr={this.state.options.page} link="/Discussions/"/>:''}
+
+        {l_page===null?<Link className="btn btn-darkblue form-control" to='/Discussions/1'>See More Discussions</Link>:''}        
       </div>
     );
   }

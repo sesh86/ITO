@@ -2,27 +2,31 @@ import React, { Component } from 'react';
 import '../App.css';
 import { connect } from 'react-redux'
 import { mapDispatchCoursesList } from '../Reducer/action';
-import {Collapse,Card,CardHeader,CardTitle,CardBody} from 'reactstrap';
-import {Link } from 'react-router-dom';
+import {Collapse,CardFooter,Card,CardHeader,CardTitle,CardBody} from 'reactstrap';
+import {Breadcrumb} from 'react-bootstrap'
+import {Link,NavLink } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination'
 
 class Courses extends Component {
   componentDidMount() {
       this.props.getCourses(this.state.options)
     }
-  constructor(props) {
+    g_per_page=100;
+  constructor(props) {    
     super(props);
     // if(!getCookie('jwt')) this.props.history.push('/login');
     
-    let l_page=this.props.match?this.props.match.params.page:1;
+    let l_page=1
+    console.log(l_page)
+    this.g_per_page=this.props.per_page?this.props.per_page:100;
     this.state = {
-      options: {"page":l_page,"per_page":4,"filter":null,"sort_by":11,"order":'asc'},
+      options: {"page":l_page,"per_page":this.g_per_page,"filter":null,"sort_by":11,"order":'asc'},
       res: { "count": 0, "data": [] },
     }
   }
 
   componentDidUpdate(){
-    let l_page=this.props.match?this.props.match.params.page:1;
+    let l_page=1;
     let options=this.state.options;
 
     if(options['page']!==l_page){
@@ -35,29 +39,39 @@ class Courses extends Component {
       let courses=this.props.courses;
       let l_page=this.props.match?this.props.match.params.page:null;
     return (
-      <div className="container">        
+      <div className="bg-course m-5">        
+        {l_page!==null?<div className="bg">
+            <Breadcrumb>
+  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+  <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+    Web-Development
+  </Breadcrumb.Item>
+</Breadcrumb>
+</div>:''}      
+      
       <div className="row">
         {courses.map((s,i)=>
-          <div className="col-12 col-md-3">
+          <div className="col-6 col-md-2">
           <Card>
-            <CardHeader className="bg-darkblue">
-              <CardTitle>{s.title}</CardTitle>
+            <CardHeader className="">
+            <CardTitle className="text-center"><h5>{s.title}</h5></CardTitle>
+              <div className="course_head img_div text-center"><img src={"/img/"+s.logo}/></div>
             </CardHeader>
             <CardBody className="text-justify">
-              <div className="img_div">
-              <img src={"/img/"+s.logo} class="blog_img" alt="Responsive image"/>
-              </div>                
-              <span dangerouslySetInnerHTML={{ __html: s.content}} /><Link to={"/Course/"+s.course_name}>Read More</Link></CardBody>
+              
+              <div dangerouslySetInnerHTML={{ __html: s.description+'...'}} /></CardBody>
+                <Link className="form-control btn btn-darkblue" to={"/Course/"+s.course_name}>Read More</Link>
           </Card>
           </div>)}
           <div>
           
           </div>
         </div>
-        <br/>          
+        
 
-        {(courses[0] && l_page!=null)?<GetPagination pages={Math.ceil(courses[0].cnt/4)} curr={this.state.options.page} link="/Courses/"/>:''}
-        {l_page===null?<Link to='/Courses/1'>See More</Link>:''}
+        {/* {(courses[0] && l_page!=null)?<GetPagination pages={Math.ceil(courses[0].cnt/this.g_per_page)} curr={this.state.options.page} link="/Courses/"/>:''} */}
+        {l_page===null?<NavLink className="cta-btn" to='/Courses'>View all Courses </NavLink>:''}
+        
       </div>
     );
   }

@@ -1,7 +1,8 @@
 const initState = {
     blogs:[],
     discussions:[],
-    courses:[]
+    courses:[],
+    categories:[]
   }
   
   const rootReducer = (state = initState, action) => {
@@ -21,8 +22,14 @@ const initState = {
     return {
       ...state,courses:action.data
     }
-  }      
-    if(!action.name)
+  }  
+  else if(action.type==='getCategories'){
+    return {
+      ...state,categories:action.data
+    }
+  }        
+  
+  if(!action.name)
       return state
   }
   

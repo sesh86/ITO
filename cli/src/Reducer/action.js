@@ -1,11 +1,31 @@
 import axios from 'axios';
 
+export const getCategories = (data) => {
+  return {
+    type: 'getCategories',
+    data:data
+  }
+}
+
+
+export const mapDispatchHome = (dispatch) => {
+  return {
+    getCategories: (options) =>{
+      const request = axios.post('/getCategories',options);
+      request.then(function(res){
+        dispatch(getCategories(res.data))
+      })
+    }    
+  }
+}
+
 export const getBlogs = (data) => {
   return {
     type: 'getBlogs',
     data:data
   }
 }
+
 
 export const mapDispatchBlogList = (dispatch) => {
   return {

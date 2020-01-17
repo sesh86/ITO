@@ -17,8 +17,11 @@ import { Provider } from 'react-redux'
 import rootReducer from './Reducer/reducer'
 import Discussion from './Components/Discussion';
 import Header from './Components/Header';
+import Footer from './Components/Footer';
+
 import Home from './Components/Home';
 import Course from './Components/Course';
+import StudentForm from './Components/StudentForm';
 import 'font-awesome/css/font-awesome.min.css';
 
 const store = createStore(rootReducer);
@@ -38,11 +41,15 @@ ReactDOM.render(
 <Route exact path="/BlogList" component={BlogList}/>
 <Route exact path="/BlogList/:page" component={BlogList}/>
 <Route exact path="/Discussions/:page" component={Discussions}/>
-<Route exact path="/Courses/:page" component={Courses}/>
+<Route exact path="/Courses" component={Courses}/>
+<Route exact path="/StudentForm" component={StudentForm}/>
+
 
 
 </Switch>
+
 </BrowserRouter>
+<Footer></Footer>  
 </Provider>
 , document.getElementById('root'));
 
